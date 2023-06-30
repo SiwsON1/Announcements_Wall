@@ -14,7 +14,7 @@ const app = express();
 const NODE_ENV = process.env.NODE_ENV;
 let dbUri = '';
 
-if(NODE_ENV === 'production') dbUri = 'mongodb+srv://masik09:${password}@cluster0.lfy7bmc.mongodb.net/?retryWrites=true&w=majority';
+if(NODE_ENV === 'production') dbUri = 'mongodb+srv://masik09:${process.env.DB_PASS}@cluster0.lfy7bmc.mongodb.net/?retryWrites=true&w=majority';
 else dbUri = 'mongodb://127.0.0.1:27017/AnnouncementsDB';
 
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -35,23 +35,41 @@ if(process.env.NODE_ENV !== 'production') {
 }
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(session({secret: 'dsadasd', store: MongoStore.create(db), resave: false, saveUninitialized: false, cookie: {
-  secure: process.env.NODE_ENV == 'production',
-},}));
+
+app.use(session({
+  secret: 'asdada',
+  store: MongoStore.create({
+    mongoUrl: dbUri,
+    mongoOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+    //collectionName: 'session',
+    cookie: {
+      secure: process.env.NODE_ENV == 'production',
+      httpOnly: true,
+      maxAge: 3600000,
+    }
+  }),
+  resave: false,
+  saveUninitialized: false,
+}))
 
 app.use('/api', adsRoutes);
 app.use('/auth', authRoutes);
 
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 
-const server = app.listen('8000', () => {
+const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
 });
 
 app.use((req, res) => {
     res.status(404).send({ message: 'Not found...' });
-  })
-  
+  });
+
+
 
 module.exports = server;
