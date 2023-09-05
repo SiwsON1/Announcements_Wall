@@ -103,7 +103,7 @@ const AdForm = ({ action, actionText, ...props }) => {
             {errors.location && <small className="d-block form-text text-danger mt-2">This field is required</small>}  
 
         <Button type="submit" className="border border-none bg-primary rounded py-1 mt-1">
-            <p className="text-light m-0">{actionText}</p>
+            <div className="text-light m-0">{actionText}</div>
         </Button>
 
       </Form>
