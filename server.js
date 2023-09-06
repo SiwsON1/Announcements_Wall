@@ -18,7 +18,7 @@ let dbUri = '';
 //if(NODE_ENV === 'production') dbUri = `mongodb+srv://masik09:${process.env.DB_PASS}@cluster0.lfy7bmc.mongodb.net/AnnouncementsDB?retryWrites=true&w=majority`;
 //else dbUri = 'mongodb://127.0.0.1:27017/AnnouncementsDB';
 
-mongoose.connect(`mongodb+srv://masik09:${dbPassword}@cluster0.lfy7bmc.mongodb.net/AnnouncementsDB?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://masik09:${dbPassword}@cluster0.lfy7bmc.mongodb.net/`, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
