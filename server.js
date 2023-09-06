@@ -14,7 +14,7 @@ const app = express();
 const NODE_ENV = process.env.NODE_ENV;
 let dbUri = '';
 
-if(NODE_ENV === 'production') dbUri = `mongodb+srv://masik09:${process.env.DB_PASS}@cluster0.lfy7bmc.mongodb.net/AnnouncementsDB`;
+if(NODE_ENV === 'production') dbUri = `mongodb+srv://masik09:${process.env.DB_PASS}@cluster0.lfy7bmc.mongodb.net/AnnouncementsDB?retryWrites=true&w=majority`;
 //else dbUri = 'mongodb://127.0.0.1:27017/AnnouncementsDB';
 
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
